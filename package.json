@@ -15,6 +15,7 @@
   "homepage": "https://bitbucket.org/gogbajbobo/hbrest#readme",
   "dependencies": {
     "debug": "^3.1.0",
+    "express": "^4.16.2",
     "mysql": "^2.15.0"
   }
 }
