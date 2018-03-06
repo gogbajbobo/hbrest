@@ -1,0 +1,19 @@
+{
+  "name": "hbrest",
+  "version": "1.0.0",
+  "description": "REST server for HomeBudget",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gogbajbobo@bitbucket.org/gogbajbobo/hbrest.git"
+  },
+  "author": "gogbajbobo",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/gogbajbobo/hbrest#readme",
+  "dependencies": {
+    "mysql": "^2.15.0"
+  }
+}
