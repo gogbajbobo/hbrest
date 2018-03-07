@@ -60,6 +60,6 @@ const Schema = {
     transactions: Transaction
 };
 
-console.log(Schema);
+// console.log(Schema);
 
 module.exports = Schema;
