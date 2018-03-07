@@ -2,7 +2,7 @@ const _ = require('lodash');
 
 const foreignKey = {
     type: 'integer',
-    nullable: false,
+    nullable: true,
     unsigned: true
 };
 
