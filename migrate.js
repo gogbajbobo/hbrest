@@ -1,17 +1,8 @@
-const Schema = require('./schema');
 const sequence = require('when/sequence');
 const _ = require('lodash');
 
-const knex = require('knex')({
-    client: 'mysql',
-    connection: {
-        host     : 'localhost',
-        user     : 'hbclient',
-        password : 'hbclientpass',
-        database : 'hbdb',
-        charset  : 'utf8'
-    }
-});
+const Schema = require('./schema');
+const knex = require('./knex');
 
 const tableNames = _.keys(Schema);
 
