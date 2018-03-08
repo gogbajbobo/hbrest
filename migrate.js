@@ -35,7 +35,9 @@ function dropTables() {
         return () => dropTable(tableName);
     });
 
-    return sequence(tables);
+    return knex.raw('SET FOREIGN_KEY_CHECKS=0')
+        .then(() => sequence(tables))
+        .then(() => knex.raw('SET FOREIGN_KEY_CHECKS=1'))
 
 }
 
