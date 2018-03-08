@@ -2,64 +2,91 @@ const _ = require('lodash');
 
 const foreignKey = {
     type: 'integer',
-    nullable: true,
-    unsigned: true
+    unsigned: true,
+    references: 'id',
+    inTable: 'accounts'
 };
 
-const Account = {
+const foreignKeyNullable = _.assign({}, foreignKey, {
+    nullable: true
+});
+
+const foreignKeyNonnull = _.assign({}, foreignKey, {
+    nullable: false
+});
+
+const value = {
+    type: 'decimal',
+    nullable: false,
+    defaultTo: 0,
+    unsigned: false
+};
+
+const time = {
+    nullable: false,
+    index: true,
+    defaultTo: 'now'
+};
+
+const dateTime = _.assign({}, time, {
+    type: 'dateTime'
+});
+
+const timestamp = _.assign({}, time, {
+    type: 'timestamp'
+});
+
+const Base = {
+    id: {
+        type: 'increments',
+        nullable: false,
+        primary: true
+    },
+    xid: {
+        type: 'string',
+        maxlength: 36,
+        nullable: false,
+        unique:true
+    },
+    ts: timestamp
+};
+
+const Account = _.assign({}, Base, {
     name: {
         type: 'string',
-        maxlength: 254,
+        maxlength: 128,
         nullable: false,
-        unique: true
+        index: true
     },
-    value: {
-        type: 'decimal',
-        nullable: false,
-        unsigned: false
-    },
+    value: value,
     currency: {
         type: 'string',
         maxlength: 10,
-        nullable: false
-    }
-};
-
-const IncomeAccount = Account;
-const ActiveAccount = Account;
-const ExpenseAccount = Account;
-
-const SubAccount = _.assign(Account, {
-    mainAccount_id: foreignKey
+        nullable: false,
+        index: true
+    },
+    type: {
+        type: 'string',
+        maxlength: 32,
+        nullable: false,
+        index: true
+    },
+    mainAccount_id: foreignKeyNullable
 });
 
-const Transaction = {
-    date: {
-        type: 'dateTime',
-        nullable: false
-    },
-    fromValue: {
-        type: 'decimal',
-        nullable: false,
-        unsigned: false
-    },
-    toValue: {
-        type: 'decimal',
-        nullable: false,
-        unsigned: false
-    },
-    fromAccount_id: foreignKey,
-    toAccount_id: foreignKey
-};
+const Transaction = _.assign({}, Base, {
+    date: dateTime,
+    fromValue: value,
+    toValue: value,
+    fromAccount_id: foreignKeyNonnull,
+    toAccount_id: foreignKeyNonnull
+});
 
 const Schema = {
-    incomeAccounts: IncomeAccount,
-    activeAccounts: ActiveAccount,
-    expenseAccounts: ExpenseAccount,
-    subAccounts: SubAccount,
+    accounts: Account,
     transactions: Transaction
 };
 
-// console.log(Schema);
+console.log(Schema);
 
 module.exports = Schema;
