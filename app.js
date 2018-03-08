@@ -10,10 +10,12 @@ app.use(bodyParser.json());
 const
     apiBaseUrl = '/api',
     accountTypeRoutes = require('./routes/accountTypes'),
-    accountRoutes = require('./routes/accounts');
+    accountRoutes = require('./routes/accounts'),
+    transactionRoutes = require('./routes/transactions');
 
 app.use(apiBaseUrl, accountTypeRoutes());
 app.use(apiBaseUrl, accountRoutes());
+app.use(apiBaseUrl, transactionRoutes());
 
 const port = process.env.PORT || 8888;
 

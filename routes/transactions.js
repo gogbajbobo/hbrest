@@ -1,5 +1,5 @@
 const
-    debug = require('debug')('hbrest:accountRoutes'),
+    debug = require('debug')('hbrest:transactionRoutes'),
     knex = require('../db/knex'),
     Bookshelf = require('bookshelf')(knex),
     router = require('express').Router(),
@@ -15,22 +15,22 @@ module.exports = () => {
 
 function setupRoutes() {
 
-    debug('accountRoutes init');
+    debug('transactionRoutes init');
 
-    const Account = Bookshelf.Model.extend({
-        tableName: 'accounts',
+    const Transaction = Bookshelf.Model.extend({
+        tableName: 'transactions',
         hasTimestamps: true
     });
 
-    const Accounts = Bookshelf.Collection.extend({
-        model: Account
+    const Transactions = Bookshelf.Collection.extend({
+        model: Transaction
     });
 
-    router.route('/accounts')
+    router.route('/transactions')
 
         .get((req, res) => {
 
-            Accounts.forge()
+            Transactions.forge()
                 .fetch()
                 .then(collection => {
                     routesHelper.responseWithObject(res, collection);
@@ -43,12 +43,8 @@ function setupRoutes() {
 
         .post((req, res) => {
 
-            Account.forge({
-                name: req.body.name,
-                value: req.body.value,
-                currency: req.body.currency,
-                xid: req.body.xid || uuidv4(),
-                accountType_id: req.body.accountType_id
+            Transaction.forge({
+                xid: req.body.xid || uuidv4()
             })
                 .save()
                 .then(account => {

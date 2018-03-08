@@ -4,7 +4,7 @@ const
     Bookshelf = require('bookshelf')(knex),
     router = require('express').Router(),
     uuidv4 = require('uuid/v4'),
-    routesHelper = require('./routesHelper');
+    routesHelper = require('./helpers/routesHelper');
 
 
 module.exports = () => {
@@ -39,6 +39,7 @@ function setupRoutes() {
                 .catch(err => {
                     routesHelper.responseWithError(res, err);
                 });
+
         })
 
         .post((req, res) => {
@@ -54,6 +55,7 @@ function setupRoutes() {
                 .catch(err => {
                     routesHelper.responseWithError(res, err);
                 });
+
         });
 
 }
