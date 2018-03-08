@@ -84,6 +84,10 @@ function createTable(tableName) {
                 column.primary();
             }
 
+            if (value.hasOwnProperty('index') && value.index === true) {
+                column.index();
+            }
+
             if (value.hasOwnProperty('unique') && value.unique) {
                 column.unique();
             }
