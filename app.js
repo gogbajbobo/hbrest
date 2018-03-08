@@ -1,4 +1,4 @@
-const knex = require('./knex');
+const knex = require('./db/knex');
 const Bookshelf = require('bookshelf')(knex);
 
 const bodyParser = require('body-parser');
