@@ -101,7 +101,13 @@ function createTable(tableName) {
             }
 
             if (value.hasOwnProperty('defaultTo')) {
-                column.defaultTo(value.defaultTo);
+
+                if (value.defaultTo === 'now') {
+                    column.defaultTo(knex.fn.now());
+                } else {
+                    column.defaultTo(value.defaultTo);
+                }
+
             }
 
         });
