@@ -3,15 +3,23 @@ const _ = require('lodash');
 const foreignKey = {
     type: 'integer',
     unsigned: true,
-    references: 'id',
-    inTable: 'accounts'
+    references: 'id'
 };
 
-const foreignKeyNullable = _.assign({}, foreignKey, {
+const accountForeignKey = _.assign({}, foreignKey, {
+    inTable: 'accounts'
+});
+
+const accountTypeForeignKey = _.assign({}, foreignKey, {
+    inTable: 'accountTypes',
+    nullable: false
+});
+
+const accountForeignKeyNullable = _.assign({}, accountForeignKey, {
     nullable: true
 });
 
-const foreignKeyNonnull = _.assign({}, foreignKey, {
+const accountForeignKeyNonnull = _.assign({}, accountForeignKey, {
     nullable: false
 });
 
@@ -43,13 +51,21 @@ const Base = {
         primary: true
     },
     xid: {
-        type: 'string',
-        maxlength: 36,
-        nullable: false,
-        unique:true
+        type: 'uuid',
+        unique:true,
+        index: true
     },
     ts: timestamp
 };
+
+const AccountType = _.assign({}, Base, {
+    type: {
+        type: 'string',
+        maxlength: 32,
+        nullable: false,
+        index: true
+    }
+});
 
 const Account = _.assign({}, Base, {
     name: {
@@ -65,24 +81,20 @@ const Account = _.assign({}, Base, {
         nullable: false,
         index: true
     },
-    type: {
-        type: 'string',
-        maxlength: 32,
-        nullable: false,
-        index: true
-    },
-    mainAccount_id: foreignKeyNullable
+    accountType_id: accountTypeForeignKey,
+    mainAccount_id: accountForeignKeyNullable
 });
 
 const Transaction = _.assign({}, Base, {
     date: dateTime,
     fromValue: value,
     toValue: value,
-    fromAccount_id: foreignKeyNonnull,
-    toAccount_id: foreignKeyNonnull
+    fromAccount_id: accountForeignKeyNonnull,
+    toAccount_id: accountForeignKeyNonnull
 });
 
 const Schema = {
+    accountTypes: AccountType,
     accounts: Account,
     transactions: Transaction
 };
