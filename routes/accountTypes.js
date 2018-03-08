@@ -148,15 +148,15 @@ function responseWithParams(res, params) {
     AccountTypes.forge()
         .query('where', params)
         .fetch()
-        .then(accountType => {
+        .then(accountTypes => {
 
-            if (!accountType) {
+            if (!accountTypes) {
 
                 const err = new Error('accountType with params ' + params + ' not found');
                 routesHelper.responseWithError(res, err, 404);
 
             } else {
-                routesHelper.responseWithObject(res, accountType);
+                routesHelper.responseWithObject(res, accountTypes);
             }
 
         })
