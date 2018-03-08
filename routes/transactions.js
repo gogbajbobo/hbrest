@@ -6,6 +6,8 @@ const
     uuidv4 = require('uuid/v4'),
     routesHelper = require('./helpers/routesHelper');
 
+const {Transaction, Transactions} = require('../models/Transaction.model');
+
 module.exports = () => {
 
     setupRoutes();
@@ -16,15 +18,6 @@ module.exports = () => {
 function setupRoutes() {
 
     debug('transactionRoutes init');
-
-    const Transaction = Bookshelf.Model.extend({
-        tableName: 'transactions',
-        hasTimestamps: true
-    });
-
-    const Transactions = Bookshelf.Collection.extend({
-        model: Transaction
-    });
 
     router.route('/transactions')
 

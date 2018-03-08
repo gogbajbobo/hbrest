@@ -6,6 +6,7 @@ const
     uuidv4 = require('uuid/v4'),
     routesHelper = require('./helpers/routesHelper');
 
+const {AccountType, AccountTypes} = require('../models/AccountType.model');
 
 module.exports = () => {
 
@@ -17,15 +18,6 @@ module.exports = () => {
 function setupRoutes() {
 
     debug('accountTypeRoutes init');
-
-    const AccountType = Bookshelf.Model.extend({
-        tableName: 'accountTypes',
-        hasTimestamps: true
-    });
-
-    const AccountTypes = Bookshelf.Collection.extend({
-        model: AccountType
-    });
 
     router.route('/accountTypes')
 
