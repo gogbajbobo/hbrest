@@ -10,10 +10,10 @@ const Transaction = Bookshelf.Model.extend({
     hasTimestamps: true,
 
     fromAccount: function () {
-        return this.belongsTo(Transaction, 'fromAccount_id');
+        return this.belongsTo(Account, 'fromAccount_id');
     },
     toAccount: function () {
-        return this.belongsTo(Transaction, 'toAccount_id');
+        return this.belongsTo(Account, 'toAccount_id');
     }
 
 });
