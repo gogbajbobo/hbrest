@@ -9,44 +9,84 @@ const express = require('express');
 const app = express();
 const router = express.Router();
 
+const uuidv4 = require('uuid/v4');
+
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
-const IncomeAccount = Bookshelf.Model.extend({
-    tableName: 'incomeAccounts'
+const AccountType = Bookshelf.Model.extend({
+    tableName: 'accountTypes'
 });
 
-const IncomeAccounts = Bookshelf.Collection.extend({
-    model: IncomeAccount
+const Account = Bookshelf.Model.extend({
+    tableName: 'accounts'
 });
 
-router.route('/incomeAccounts')
+const AccountTypes = Bookshelf.Collection.extend({
+    model: AccountType
+});
 
-    .get(function (req, res) {
+const Accounts = Bookshelf.Collection.extend({
+    model: Account
+});
 
-        IncomeAccounts.forge()
+router.route('/accountTypes')
+
+    .get((req, res) => {
+
+        AccountTypes.forge()
             .fetch()
-            .then(function (collection) {
+            .then(collection => {
                 res.json({error: false, data: collection.toJSON()});
             })
-            .otherwise(function (err) {
+            .catch(err => {
                 res.status(500).json({error: true, data: {message: err.message}});
             });
     })
 
-    // create a user
-    .post(function (req, res) {
+    .post((req, res) => {
 
-        IncomeAccount.forge({
-            name: req.body.name,
-            value: req.body.value,
-            currency: req.body.currency
+        AccountType.forge({
+            type: req.body.type,
+            xid: req.body.xid || uuidv4()
         })
             .save()
-            .then(function (account) {
+            .then(account => {
                 res.json({error: false, data: account.toJSON()});
             })
-            .otherwise(function (err) {
+            .catch(err => {
+                res.status(500).json({error: true, data: {message: err.message}});
+            });
+    });
+
+router.route('/accounts')
+
+    .get((req, res) => {
+
+        Accounts.forge()
+            .fetch()
+            .then(collection => {
+                res.json({error: false, data: collection.toJSON()});
+            })
+            .catch(err => {
+                res.status(500).json({error: true, data: {message: err.message}});
+            });
+    })
+
+    .post((req, res) => {
+
+        Account.forge({
+            name: req.body.name,
+            value: req.body.value,
+            currency: req.body.currency,
+            xid: req.body.xid || uuidv4(),
+            accountType_id: req.body.accountType_id
+        })
+            .save()
+            .then(account => {
+                res.json({error: false, data: account.toJSON()});
+            })
+            .catch(err => {
                 res.status(500).json({error: true, data: {message: err.message}});
             });
     });
