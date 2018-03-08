@@ -9,6 +9,6 @@ function responseWithObject(res, obj) {
     res.json({error: false, data: obj.toJSON()});
 }
 
-function responseWithError(res, err) {
-    res.status(500).json({error: true, data: {message: err.message}});
+function responseWithError(res, err, code = 500) {
+    res.status(code).json({error: true, data: {message: err.message}});
 }

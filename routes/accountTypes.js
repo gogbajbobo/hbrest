@@ -23,6 +23,9 @@ function setupRoutes() {
 
         .get((req, res) => {
 
+            debug('get all account types');
+            debug(req.query);
+
             AccountTypes.forge()
                 .fetch()
                 .then(collection => {
@@ -43,6 +46,76 @@ function setupRoutes() {
                 .save()
                 .then(accountType => {
                     routesHelper.responseWithObject(res, accountType);
+                })
+                .catch(err => {
+                    routesHelper.responseWithError(res, err);
+                });
+
+        });
+
+    router.route('/accountTypes/:id')
+
+        .get((req, res) => {
+
+            debug('get account type #', req.params.id);
+
+            AccountType.forge({id: req.params.id})
+                .fetch()
+                .then(accountType => {
+
+                    if (!accountType) {
+
+                        const err = new Error('accountType #' + req.params.id + ' not found');
+                        routesHelper.responseWithError(res, err, 404);
+
+                    } else {
+                        routesHelper.responseWithObject(res, accountType);
+                    }
+
+                })
+                .catch(err =>  {
+                    routesHelper.responseWithError(res, err);
+                });
+
+        })
+
+        .put((req, res) => {
+
+            AccountType.forge({id: req.params.id})
+                .fetch({require: true})
+                .then(accountType => {
+
+                    accountType.save({
+                        type: req.body.type || accountType.get('type')
+                    })
+                        .then(() => {
+                            routesHelper.responseWithObject(res, accountType);
+                        })
+                        .catch(err => {
+                            routesHelper.responseWithError(res, err);
+                        });
+
+                })
+                .catch(err => {
+                    routesHelper.responseWithError(res, err);
+                });
+
+        })
+
+        .delete((req, res) => {
+
+            AccountType.forge({id: req.params.id})
+                .fetch({require: true})
+                .then(accountType => {
+
+                    accountType.destroy()
+                        .then(() => {
+                            routesHelper.responseWithObject(res, accountType);
+                        })
+                        .catch(err => {
+                            routesHelper.responseWithError(res, err);
+                        });
+
                 })
                 .catch(err => {
                     routesHelper.responseWithError(res, err);
