@@ -96,8 +96,8 @@ function createTable(tableName) {
                 column.unsigned();
             }
 
-            if (value.hasOwnProperty('references')) {
-                column.references(value.references);
+            if (value.hasOwnProperty('references') && value.hasOwnProperty('inTable')) {
+                column.references(value.references).inTable(value.inTable);
             }
 
             if (value.hasOwnProperty('defaultTo')) {
