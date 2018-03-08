@@ -1,9 +1,6 @@
 const
     debug = require('debug')('hbrest:accountRoutes'),
-    knex = require('../db/knex'),
-    Bookshelf = require('bookshelf')(knex),
     router = require('express').Router(),
-    uuidv4 = require('uuid/v4'),
     _ = require('lodash'),
     routesHelper = require('./helpers/routesHelper');
 
