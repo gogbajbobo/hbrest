@@ -1,9 +1,7 @@
 const
     debug = require('debug')('hbrest:transactionRoutes'),
-    knex = require('../db/knex'),
-    Bookshelf = require('bookshelf')(knex),
     router = require('express').Router(),
-    uuidv4 = require('uuid/v4'),
+    _ = require('lodash'),
     routesHelper = require('./helpers/routesHelper');
 
 const {Transaction, Transactions} = require('../models/Transaction.model');
@@ -23,30 +21,30 @@ function setupRoutes() {
 
         .get((req, res) => {
 
-            Transactions.forge()
-                .fetch()
-                .then(collection => {
-                    routesHelper.responseWithObject(res, collection);
-                })
-                .catch(err => {
-                    routesHelper.responseWithError(res, err);
-                });
+            if (_.keys(req.query).length > 0) {
+                routesHelper.responseWithObjectWithParams(res, req.query, Transactions);
+            } else {
+                routesHelper.responseWithAllObjects(res, Transactions);
+            }
 
         })
 
         .post((req, res) => {
+            routesHelper.createObjectWithParams(res, req.body, Transaction);
+        });
 
-            Transaction.forge({
-                xid: req.body.xid || uuidv4()
-            })
-                .save()
-                .then(account => {
-                    routesHelper.responseWithObject(res, account);
-                })
-                .catch(err => {
-                    routesHelper.responseWithError(res, err);
-                });
+    router.route('/transactions/:id')
 
+        .get((req, res) => {
+            routesHelper.getObjectWithId(res, req.params.id, Transaction);
+        })
+
+        .put((req, res) => {
+            routesHelper.updateObjectWithParams(res, req.params.id, req.body, Transaction);
+        })
+
+        .delete((req, res) => {
+            routesHelper.deleteObjectWithId(res, req.params.id, Transaction);
         });
 
 }
