@@ -8,9 +8,7 @@ _.assign(exports, {
     createObjectWithParams,
     getObjectWithId,
     updateObjectWithParams,
-    deleteObjectWithId,
-    responseWithObject,
-    responseWithError
+    deleteObjectWithId
 });
 
 function responseWithObject(res, obj) {
