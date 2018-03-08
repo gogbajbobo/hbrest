@@ -33,19 +33,19 @@ const Account = Bookshelf.Model.extend({
 
     creationProperties: params => {
         return {
+            xid: params.xid || uuidv4(),
             name: params.name,
             value: params.value,
             currency: params.currency,
-            xid: params.xid || uuidv4(),
             accountType_id: params.accountType_id
         };
     },
     updatingProperties: (params, object) => {
         return {
+            xid: params.xid || object.get('xid'),
             name: params.name || object.get('name'),
             value: params.value || object.get('value'),
             currency: params.currency || object.get('currency'),
-            xid: params.xid || object.get('xid'),
             accountType_id: params.accountType_id || object.get('accountType_id')
         };
     },

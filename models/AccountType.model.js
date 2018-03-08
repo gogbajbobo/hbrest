@@ -18,12 +18,13 @@ const AccountType = Bookshelf.Model.extend({
 
     creationProperties: params => {
         return {
+            xid: params.xid || uuidv4(),
             type: params.type,
-            xid: params.xid || uuidv4()
         };
     },
     updatingProperties: (params, object) => {
         return {
+            xid: params.xid || object.get('xid'),
             type: params.type || object.get('type')
         };
     },
