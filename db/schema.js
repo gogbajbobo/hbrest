@@ -87,6 +87,8 @@ const Schema = {
     transactions: Transaction
 };
 
-console.log(Schema);
+_.forEach(Schema, (value, key) => {
+    console.log(key, _.keys(value));
+});
 
 module.exports = Schema;
