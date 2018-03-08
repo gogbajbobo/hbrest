@@ -4,11 +4,7 @@ const _ = require('lodash');
 const Schema = require('./schema');
 const knex = require('./knex');
 
-const tableNames = _.keys(Schema);
-
-checkTables()
-    .then(() => dropTables())
-    .then(() => createTables())
+createTables()
     .catch(error => {
         throw error;
     });
@@ -16,41 +12,11 @@ checkTables()
 
 // functions
 
-function checkTables() {
-
-    const tables = _.map(tableNames, tableName => {
-        return () => {
-            return knex.schema.hasTable(tableName)
-                .then(exists => console.log(tableName, exists ? '' : 'not', 'exists'));
-        };
-    });
-
-    return sequence(tables);
-
-}
-
-function dropTables() {
-
-    const tables = _.map(tableNames, tableName => {
-        return () => dropTable(tableName);
-    });
-
-    return knex.raw('SET FOREIGN_KEY_CHECKS=0')
-        .then(() => sequence(tables))
-        .then(() => knex.raw('SET FOREIGN_KEY_CHECKS=1'))
-
-}
-
-function dropTable(tableName) {
-
-    console.log('drop table', tableName);
-    return knex.schema.dropTableIfExists(tableName);
-
-}
-
 function createTables () {
 
-    let tables = _.map(tableNames, tableName => {
+    const tableNames = _.keys(Schema);
+
+    const tables = _.map(tableNames, tableName => {
         return () => createTable(tableName);
     });
 
