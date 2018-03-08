@@ -19,7 +19,8 @@ function setupRoutes() {
     debug('accountTypeRoutes init');
 
     const AccountType = Bookshelf.Model.extend({
-        tableName: 'accountTypes'
+        tableName: 'accountTypes',
+        hasTimestamps: true
     });
 
     const AccountTypes = Bookshelf.Collection.extend({

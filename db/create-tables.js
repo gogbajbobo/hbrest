@@ -68,7 +68,9 @@ function createTable(tableName) {
                 column.references(value.references).inTable(value.inTable);
             }
 
-            if (value.hasOwnProperty('defaultTo')) {
+            if (value.hasOwnProperty('defaultTo') &&
+                value.hasOwnProperty('nullable') &&
+                value.nullable === false) {
 
                 if (value.defaultTo === 'now') {
                     column.defaultTo(knex.fn.now());

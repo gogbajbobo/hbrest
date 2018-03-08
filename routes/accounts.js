@@ -18,7 +18,8 @@ function setupRoutes() {
     debug('accountRoutes init');
 
     const Account = Bookshelf.Model.extend({
-        tableName: 'accounts'
+        tableName: 'accounts',
+        hasTimestamps: true
     });
 
     const Accounts = Bookshelf.Collection.extend({

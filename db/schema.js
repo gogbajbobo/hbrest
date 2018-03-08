@@ -55,7 +55,9 @@ const Base = {
         unique:true,
         index: true
     },
-    ts: timestamp
+    ts: timestamp,
+    created_at: _.assign({}, dateTime, {nullable: false}),
+    updated_at: _.assign({}, dateTime, {nullable: true})
 };
 
 const AccountType = _.assign({}, Base, {
