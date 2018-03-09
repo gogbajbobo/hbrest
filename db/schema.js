@@ -101,8 +101,8 @@ const Schema = {
     transactions: Transaction
 };
 
-_.forEach(Schema, (value, key) => {
-    console.log(key, _.keys(value));
-});
+// _.forEach(Schema, (value, key) => {
+//     console.log(key, _.keys(value));
+// });
 
 module.exports = Schema;
