@@ -44,7 +44,11 @@ const Transaction = Bookshelf.Model.extend({
 const Transactions = Bookshelf.Collection.extend({
     model: Transaction
 }, {
-    logName: 'transactions'
+    logName: 'transactions',
+    path: 'transactions'
 });
 
-module.exports = {Transaction, Transactions};
+module.exports = {
+    objectModel: Transaction,
+    collectionModel: Transactions
+};
