@@ -78,7 +78,7 @@ function getObjectWithId(res, id, objectModel) {
 
     debug('get', objectModel.logName, '#', id);
 
-    objectModel.forge({id: id})
+    objectModel.forge({id})
         .fetch()
         .then(object => {
 
@@ -102,7 +102,7 @@ function updateObjectWithParams(res, id, params, objectModel) {
 
     debug('update', objectModel.logName, '#', id, 'with params', params);
 
-    objectModel.forge({id: id})
+    objectModel.forge({id})
         .fetch({require: true})
         .then(object => {
 
