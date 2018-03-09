@@ -18,8 +18,10 @@ _.forEach(_.keys(Schema), key => {
     app.use(apiBaseUrl, require('./routes/' + key)());
 });
 
-const port = process.env.PORT || 8888;
+const {defaultRoute} = require('./routes/defaultRoute');
+app.use(defaultRoute);
 
+const port = process.env.PORT || 8888;
 app.listen(port, () => {
     debug('HomeBudget RESTful API server started on: ' + port);
 });
