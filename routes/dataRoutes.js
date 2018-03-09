@@ -1,7 +1,7 @@
 const
     router = require('express').Router(),
     _ = require('lodash'),
-    routesHelper = require('./helpers/routesHelper'),
+    routesHelper = require('./routesHelper'),
     path = require('path');
 
 const models = [
