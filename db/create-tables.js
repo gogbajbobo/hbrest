@@ -38,6 +38,8 @@ function createTable(tableName) {
                 column = table[value.type](key, value.fieldtype);
             } else if (value.type === 'string' && value.hasOwnProperty('maxlength')) {
                 column = table[value.type](key, value.maxlength);
+            } else if (value.type === 'moneyDecimal') {
+                column = table.decimal(key, 19, 4);
             } else {
                 column = table[value.type](key);
             }

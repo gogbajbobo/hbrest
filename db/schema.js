@@ -23,8 +23,8 @@ const accountForeignKeyNonnull = _.assign({}, accountForeignKey, {
     nullable: false
 });
 
-const value = {
-    type: 'decimal',
+const moneyValue = {
+    type: 'moneyDecimal',
     nullable: false,
     defaultTo: 0,
     unsigned: false
@@ -76,7 +76,7 @@ const Account = _.assign({}, Base, {
         nullable: false,
         index: true
     },
-    value: value,
+    value: moneyValue,
     currency: {
         type: 'string',
         maxlength: 10,
@@ -89,8 +89,8 @@ const Account = _.assign({}, Base, {
 
 const Transaction = _.assign({}, Base, {
     date: dateTime,
-    fromValue: value,
-    toValue: value,
+    fromValue: moneyValue,
+    toValue: moneyValue,
     fromAccount_id: accountForeignKeyNonnull,
     toAccount_id: accountForeignKeyNonnull
 });
