@@ -2,9 +2,7 @@ const
     debug = require('debug')('hbrest:app'),
     express = require('express'),
     app = express(),
-    bodyParser = require('body-parser'),
-    Schema = require('./db/schema'),
-    _ = require('lodash');
+    bodyParser = require('body-parser');
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
