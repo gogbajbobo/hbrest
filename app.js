@@ -9,10 +9,11 @@ const
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
+const validator = require('./auth/validator');
+app.use('/', validator);
+
 const apiBaseUrl = '/api';
-
 // routes files in ./routes should be named exactly as tables in Schema
-
 _.forEach(_.keys(Schema), key => {
     app.use(apiBaseUrl, require('./routes/' + key)());
 });
