@@ -1,8 +1,5 @@
 const
-    debug = require('debug')('hbrest:defaultRoute'),
-    router = require('express').Router(),
-    _ = require('lodash'),
-    routesHelper = require('./helpers/routesHelper');
+    _ = require('lodash');
 
 _.assign(exports, {
     defaultRoute
