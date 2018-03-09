@@ -10,9 +10,7 @@ _.assign(exports, {
 
 function defaultRoute(req, res, next) {
 
-    debug('defaultRoute init');
     res.status(404).json({error: false, data: {API: 'HomeBudget REST API', version: '1.0'}});
-
     return next();
 
 }
