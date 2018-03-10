@@ -23,6 +23,11 @@ const accountForeignKeyNonnull = _.assign({}, accountForeignKey, {
     nullable: false
 });
 
+const userForeignKey = _.assign({}, foreignKey, {
+    inTable: 'users',
+    nullable: false
+});
+
 const moneyValue = {
     type: 'moneyDecimal',
     nullable: false,
@@ -60,13 +65,37 @@ const Base = {
     updated_at: _.assign({}, dateTime, {nullable: true})
 };
 
+const User = _.assign({}, Base, {
+    name: {
+        type: 'string',
+        maxlength: 128,
+        nullable: false,
+        index: true
+    },
+    hash: {
+        type: 'string',
+        maxlength: 128,
+        nullable: false
+    }
+});
+
+const Token = _.assign({}, Base, {
+    token: {
+        type: 'string',
+        maxlength: 128,
+        nullable: false
+    },
+    user_id: userForeignKey
+});
+
 const AccountType = _.assign({}, Base, {
     type: {
         type: 'string',
         maxlength: 32,
         nullable: false,
         index: true
-    }
+    },
+    user_id: userForeignKey
 });
 
 const Account = _.assign({}, Base, {
@@ -84,7 +113,8 @@ const Account = _.assign({}, Base, {
         index: true
     },
     accountType_id: accountTypeForeignKey,
-    mainAccount_id: accountForeignKeyNullable
+    mainAccount_id: accountForeignKeyNullable,
+    user_id: userForeignKey
 });
 
 const Transaction = _.assign({}, Base, {
@@ -92,10 +122,13 @@ const Transaction = _.assign({}, Base, {
     fromValue: moneyValue,
     toValue: moneyValue,
     fromAccount_id: accountForeignKeyNonnull,
-    toAccount_id: accountForeignKeyNonnull
+    toAccount_id: accountForeignKeyNonnull,
+    user_id: userForeignKey
 });
 
 const Schema = {
+    users: User,
+    tokens: Token,
     accountTypes: AccountType,
     accounts: Account,
     transactions: Transaction

@@ -3,8 +3,10 @@ const
     Bookshelf = require('bookshelf')(knex),
     uuidv4 = require('uuid/v4');
 
-const {AccountType} = require('./AccountType.model');
-const {Transaction} = require('./Transaction.model');
+const
+    {AccountType} = require('./AccountType.model'),
+    {Transaction} = require('./Transaction.model'),
+    {User} = require('./User.model');
 
 const Account = Bookshelf.Model.extend({
 
@@ -14,19 +16,20 @@ const Account = Bookshelf.Model.extend({
     accountType: function () {
         return this.belongsTo(AccountType, 'accountType_id');
     },
-
     mainAccount: function () {
         return this.belongsTo(Account, 'mainAccount_id');
     },
     subaccounts: function () {
         return this.hasMany(Account, 'mainAccount_id');
     },
-
     outTransactions: function () {
         return this.hasMany(Transaction, 'fromAccount_id');
     },
     inTransactions: function () {
         return this.hasMany(Transaction, 'toAccount_id');
+    },
+    user: function () {
+        return this.belongsTo(User, 'user_id');
     }
 
 }, {

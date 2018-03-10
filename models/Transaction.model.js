@@ -3,7 +3,9 @@ const
     Bookshelf = require('bookshelf')(knex),
     uuidv4 = require('uuid/v4');
 
-const {Account} = require('./Account.model');
+const
+    {Account} = require('./Account.model'),
+    {User} = require('./User.model');
 
 const Transaction = Bookshelf.Model.extend({
 
@@ -15,6 +17,9 @@ const Transaction = Bookshelf.Model.extend({
     },
     toAccount: function () {
         return this.belongsTo(Account, 'toAccount_id');
+    },
+    user: function () {
+        return this.belongsTo(User, 'user_id');
     }
 
 }, {
