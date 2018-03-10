@@ -66,10 +66,11 @@ const Base = {
 };
 
 const User = _.assign({}, Base, {
-    name: {
+    login: {
         type: 'string',
         maxlength: 128,
         nullable: false,
+        unique:true,
         index: true
     },
     hash: {
