@@ -66,7 +66,7 @@ const Base = {
 };
 
 const User = _.assign({}, Base, {
-    login: {
+    username: {
         type: 'string',
         maxlength: 128,
         nullable: false,
