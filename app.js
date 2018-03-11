@@ -4,6 +4,9 @@ const
     app = express(),
     bodyParser = require('body-parser');
 
+const authRedirect = require('./auth/auth');
+app.use('/auth', authRedirect);
+
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
