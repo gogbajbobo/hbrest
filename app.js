@@ -2,7 +2,10 @@ const
     debug = require('debug')('hbrest:app'),
     express = require('express'),
     app = express(),
-    bodyParser = require('body-parser');
+    bodyParser = require('body-parser'),
+    mongoose = require('mongoose');
+
+mongoose.connect('mongodb://localhost/hbrest');
 
 const authRedirect = require('./auth/auth');
 app.use('/auth', authRedirect);
