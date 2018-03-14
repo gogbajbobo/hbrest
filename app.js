@@ -3,24 +3,26 @@ const
     express = require('express'),
     app = express(),
     bodyParser = require('body-parser'),
-    mongoose = require('mongoose');
+    mongoose = require('mongoose'),
+    passport = require('passport'),
+    LocalStrategy = require('passport-local').Strategy,
+    User = require('./models/User');
 
 mongoose.connect('mongodb://localhost/hbrest');
-
-const authRedirect = require('./auth/auth');
-app.use('/auth', authRedirect);
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
-// const validator = require('./auth/validator');
-// app.use(validator);
+app.use(passport.initialize());
+app.use(passport.session());
 
-const apiBasePath = '/api';
-app.use(apiBasePath, require('./routes/dataRoutes')());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
-const {defaultRoute} = require('./routes/defaultRoute');
-app.use(defaultRoute);
+const userRoute = require('./routes/user');
+
+app.use('/api', userRoute);
 
 const port = process.env.PORT || 8888;
 app.listen(port, () => {
