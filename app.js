@@ -10,8 +10,8 @@ app.use('/auth', authRedirect);
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
-const validator = require('./auth/validator');
-app.use(validator);
+// const validator = require('./auth/validator');
+// app.use(validator);
 
 const apiBasePath = '/api';
 app.use(apiBasePath, require('./routes/dataRoutes')());
