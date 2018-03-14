@@ -81,7 +81,7 @@ const User = _.assign({}, Base, {
 });
 
 const Token = _.assign({}, Base, {
-    token: {
+    accessToken: {
         type: 'string',
         maxlength: 128,
         nullable: false
