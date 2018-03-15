@@ -3,7 +3,7 @@ const
     router = express.Router(),
     _ = require('lodash'),
     path = require('path'),
-    debug = require('debug')('hbrest: userRoutes');
+    debug = require('debug')('hbrest: routes');
 
 const
     Account = require('../models/Account'),
@@ -26,14 +26,8 @@ _.forEach(models, Model => {
 
         .get((req, res) => {
 
-            Model.find(req.query, (err, users) => {
-
-                if (err) {
-                    return res.status(400).json({error: true, message: err.toLocaleString()});
-                }
-
-                res.status(200).json(users);
-
+            Model.find(req.query, (err, result) => {
+                respondeWithResult(err, result, res);
             });
 
         })
@@ -43,66 +37,55 @@ _.forEach(models, Model => {
             const username = req.body.username;
             const password = req.body.password;
 
-            Model.register(new Model({username}), password, (err, user) => {
+            if (!username || !password) return res.status(400);
 
-                if (err) {
-                    return res.status(400).json({error: true, message: err.toLocaleString()});
-                }
-
-                res.status(200).json(user);
-
+            Model.register(new Model({username}), password, (err, result) => {
+                respondeWithResult(err, result, res);
             });
 
         });
 
-    apiPath = path.join(apiPath, ':id')
+    apiPath = path.join(apiPath, ':id');
 
     router.route(apiPath)
 
         .get((req, res) => {
 
-            const userId = req.params.id;
-
-            Model.findById(userId, (err, user) => {
-
-                if (err) {
-                    return res.status(400).json({error: true, message: err.toLocaleString()});
-                }
-
-                res.status(200).json(user);
-
+            Model.findById(req.params.id, (err, result) => {
+                respondeWithResult(err, result, res);
             });
 
         })
 
         .put((req, res) => {
 
-            Model.findByIdAndUpdate(req.params.id, req.body, {new: true}, (err, user) => {
-
-                if (err) {
-                    return res.status(400).json({error: true, message: err.toLocaleString()});
-                }
-
-                res.status(200).json(user);
-
+            Model.findByIdAndUpdate(req.params.id, req.body, {new: true}, (err, result) => {
+                respondeWithResult(err, result, res);
             });
 
         })
 
         .delete((req, res) => {
 
-            Model.findByIdAndRemove(req.params.id, (err, user) => {
-
-                if (err) {
-                    return res.status(400).json({error: true, message: err.toLocaleString()});
-                }
-
-                res.status(200).json(user);
-
+            Model.findByIdAndRemove(req.params.id, (err, result) => {
+                respondeWithResult(err, result, res);
             });
 
         });
 
 });
+
+function respondeWithResult(err, result, res) {
+
+    if (err) {
+
+        debug(err.toLocaleString());
+        return res.status(500);
+
+    }
+
+    res.status(200).json({error: false, data: result});
+
+}
 
 module.exports = router;
