@@ -1,16 +1,15 @@
-const
-    mongoose = require('mongoose'),
-    Schema = mongoose.Schema,
-    passportLocalMongoose = require('passport-local-mongoose');
+const passportLocalMongoose = require('passport-local-mongoose');
 
-const ObjectId = Schema.Types.ObjectId;
+const {mongoose, Schema, ObjectId, Decimal128, AbstractBase, _} = require('../models/AbstractBase');
 
-const User = new Schema({
-    username: String,
-    accountTypes: [{type: ObjectId, ref: 'AccountType'}],
-    accounts: [{type: ObjectId, ref: 'Account'}],
-    transactions: [{type: ObjectId, ref: 'Transaction'}]
-});
+const User = new Schema(
+    _.assign({}, AbstractBase, {
+        username: String,
+        accountTypes: [{type: ObjectId, ref: 'AccountType'}],
+        accounts: [{type: ObjectId, ref: 'Account'}],
+        transactions: [{type: ObjectId, ref: 'Transaction'}]
+    })
+);
 
 User.static({
     apiPath: 'users'
