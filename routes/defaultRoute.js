@@ -1,13 +1,20 @@
 const
-    _ = require('lodash');
+    express = require('express'),
+    router = express.Router();
 
-_.assign(exports, {
-    defaultRoute
-});
+router.route('*')
+    .all((req, res, next) => {
 
-function defaultRoute(req, res, next) {
-
-    res.status(404).json({error: false, data: {API: 'HomeBudget REST API', version: '1.0'}});
+    res.status(404).json({
+        error: true,
+        message: 'nowhere now here',
+        data: {
+            API: 'HomeBudget REST API',
+            version: '1.0'
+        }
+    });
     return next();
 
-}
+});
+
+module.exports = router;

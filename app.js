@@ -26,6 +26,9 @@ passport.deserializeUser(User.deserializeUser());
 const routes = require('./routes/routes');
 app.use('/api', routes);
 
+const defaultRoute = require('./routes/defaultRoute');
+app.use(defaultRoute);
+
 const port = process.env.PORT || 8888;
 app.listen(port, () => {
     debug('HomeBudget RESTful API server started on: ' + port);
