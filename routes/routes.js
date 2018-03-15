@@ -6,9 +6,17 @@ const
     debug = require('debug')('hbrest: userRoutes');
 
 const
+    Account = require('../models/Account'),
+    AccountType = require('../models/AccountType'),
+    Transaction = require('../models/Transaction'),
     User = require('../models/User');
 
-const models = [User];
+const models = [
+    Account,
+    AccountType,
+    Transaction,
+    User
+];
 
 _.forEach(models, Model => {
 
