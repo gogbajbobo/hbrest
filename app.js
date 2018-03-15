@@ -23,10 +23,7 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-// const userRoute = require('./routes/user');
 const routes = require('./routes/routes');
-
-// app.use('/api', userRoute);
 app.use('/api', routes);
 
 const port = process.env.PORT || 8888;
