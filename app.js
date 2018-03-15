@@ -6,9 +6,12 @@ const
     mongoose = require('mongoose'),
     passport = require('passport'),
     LocalStrategy = require('passport-local').Strategy,
-    User = require('./models/User');
+    User = require('./models/User'),
+    logger = require('morgan');
 
 mongoose.connect('mongodb://localhost/hbrest');
+
+app.use(logger('dev'));
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
