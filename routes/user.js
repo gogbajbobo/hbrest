@@ -8,9 +8,7 @@ router.route('/users')
 
     .get((req, res) => {
 
-        debug('users get');
-
-        User.find({}, (err, users) => {
+        User.find(req.query, (err, users) => {
 
             if (err) {
                 return res.status(400).json({error: true, message: err.toLocaleString()});
@@ -38,5 +36,52 @@ router.route('/users')
         });
 
     });
+
+router.route('/users/:id')
+
+    .get((req, res) => {
+
+        const userId = req.params.id;
+
+        User.findById(userId, (err, user) => {
+
+            if (err) {
+                return res.status(400).json({error: true, message: err.toLocaleString()});
+            }
+
+            res.status(200).json(user);
+
+        });
+
+    })
+
+    .put((req, res) => {
+
+        User.findByIdAndUpdate(req.params.id, req.body, {new: true}, (err, user) => {
+
+            if (err) {
+                return res.status(400).json({error: true, message: err.toLocaleString()});
+            }
+
+            res.status(200).json(user);
+
+        });
+
+    })
+
+    .delete((req, res) => {
+
+        User.findByIdAndRemove(req.params.id, (err, user) => {
+
+            if (err) {
+                return res.status(400).json({error: true, message: err.toLocaleString()});
+            }
+
+            res.status(200).json(user);
+
+        });
+
+    });
+
 
 module.exports = router;
