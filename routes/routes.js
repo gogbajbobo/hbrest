@@ -3,7 +3,7 @@ const
     router = express.Router(),
     _ = require('lodash'),
     path = require('path'),
-    log = require('../logger')(module);
+    log = require('../libs/logger')(module);
 
 const
     Account = require('../models/Account'),

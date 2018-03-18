@@ -7,9 +7,18 @@ const
     LocalStrategy = require('passport-local').Strategy,
     User = require('./models/User'),
     requestLogger = require('morgan'),
-    log = require('./logger')(module);
+    log = require('./libs/logger')(module),
+    config = require('./libs/config');
 
-mongoose.connect('mongodb://localhost/hbrest');
+mongoose.connect(config.get('mongoose:uri'));
+const db = mongoose.connection;
+
+db.on('error', err => {
+    log.error('connection error:', err.message);
+});
+db.once('open', () => {
+    log.info("Connected to DB!");
+});
 
 app.use(requestLogger('dev'));
 
@@ -29,7 +38,7 @@ app.use('/api', routes);
 const defaultRoute = require('./routes/defaultRoute');
 app.use(defaultRoute);
 
-const port = process.env.PORT || 8888;
+const port = process.env.PORT || config.get('port');
 app.listen(port, () => {
     log.info('HomeBudget RESTful API server started on:', port);
 });
