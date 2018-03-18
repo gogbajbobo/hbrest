@@ -1,5 +1,4 @@
 const
-    debug = require('debug')('hbrest:app'),
     express = require('express'),
     app = express(),
     bodyParser = require('body-parser'),
@@ -7,11 +6,12 @@ const
     passport = require('passport'),
     LocalStrategy = require('passport-local').Strategy,
     User = require('./models/User'),
-    logger = require('morgan');
+    requestLogger = require('morgan'),
+    log = require('./logger')(module);
 
 mongoose.connect('mongodb://localhost/hbrest');
 
-app.use(logger('dev'));
+app.use(requestLogger('dev'));
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
@@ -31,5 +31,5 @@ app.use(defaultRoute);
 
 const port = process.env.PORT || 8888;
 app.listen(port, () => {
-    debug('HomeBudget RESTful API server started on: ' + port);
+    log.info('HomeBudget RESTful API server started on:', port);
 });

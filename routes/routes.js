@@ -3,7 +3,7 @@ const
     router = express.Router(),
     _ = require('lodash'),
     path = require('path'),
-    debug = require('debug')('hbrest: routes');
+    log = require('../logger')(module);
 
 const
     Account = require('../models/Account'),
@@ -79,7 +79,7 @@ function respondeWithResult(err, result, res) {
 
     if (err) {
 
-        debug(err.toLocaleString());
+        log.error(err.toLocaleString());
         return res.status(500);
 
     }
