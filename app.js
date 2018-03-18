@@ -1,14 +1,13 @@
 const
-    express = require('express'),
-    app = express(),
-    bodyParser = require('body-parser'),
-    mongoose = require('mongoose'),
-    passport = require('passport'),
-    LocalStrategy = require('passport-local').Strategy,
-    User = require('./models/User'),
-    requestLogger = require('morgan'),
-    log = require('./libs/logger')(module),
-    config = require('./libs/config');
+    express         = require('express'),
+    app             = express(),
+    bodyParser      = require('body-parser'),
+    mongoose        = require('mongoose'),
+    requestLogger   = require('morgan'),
+    log             = require('./libs/logger')(module),
+    config          = require('./libs/config'),
+    oauth2          = require('./libs/oauth2'),
+    passport        = require('./libs/auth');
 
 mongoose.connect(config.get('mongoose:uri'));
 const db = mongoose.connection;
@@ -25,12 +24,26 @@ app.use(requestLogger('dev'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
-app.use(passport.initialize());
-app.use(passport.session());
+app.post('/oauth/token', oauth2.token);
 
-passport.use(new LocalStrategy(User.authenticate()));
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
+app.get('/api/userInfo',
+    passport.authenticate('bearer', { session: false }),
+    (req, res) => {
+        // req.authInfo is set using the `info` argument supplied by
+        // `BearerStrategy`.  It is typically used to indicate a scope of the token,
+        // and used in access control checks.  For illustrative purposes, this
+        // example simply returns the scope in the response.
+        res.json({ user_id: req.user.userId, name: req.user.username, scope: req.authInfo.scope })
+    }
+);
+
+
+// app.use(passport.initialize());
+// app.use(passport.session());
+//
+// passport.use(new LocalStrategy(User.authenticate()));
+// passport.serializeUser(User.serializeUser());
+// passport.deserializeUser(User.deserializeUser());
 
 const routes = require('./routes/routes');
 app.use('/api', routes);

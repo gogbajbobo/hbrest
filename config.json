@@ -2,5 +2,8 @@
   "port" : 8888,
   "mongoose": {
     "uri": "mongodb://localhost/hbrest"
+  },
+  "security": {
+    "tokenLife" : 3600
   }
 }

@@ -5,18 +5,19 @@ const
     path = require('path'),
     log = require('../libs/logger')(module);
 
-const
-    Account = require('../models/Account'),
-    AccountType = require('../models/AccountType'),
-    Transaction = require('../models/Transaction'),
-    User = require('../models/User');
-
-const models = [
-    Account,
-    AccountType,
-    Transaction,
-    User
+const modelNames = [
+    'Account',
+    'AccountType',
+    'Transaction',
+    'User',
+    'Client',
+    'AccessToken',
+    'RefreshToken'
 ];
+
+const models = _.map(modelNames, name => {
+    return require('../models/' + name);
+});
 
 _.forEach(models, Model => {
 
@@ -90,7 +91,7 @@ function respondeWithResult(err, result, res) {
     if (err) {
 
         log.error(err.toLocaleString());
-        return res.status(500);
+        return res.sendStatus(500);
 
     }
 

@@ -1,4 +1,5 @@
-const passportLocalMongoose = require('passport-local-mongoose');
+const
+    passportLocalMongoose = require('passport-local-mongoose');
 
 const {mongoose, Schema, ObjectId, Decimal128, AbstractBase, _} = require('../models/AbstractBase');
 
