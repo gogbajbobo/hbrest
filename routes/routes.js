@@ -26,6 +26,8 @@ _.forEach(models, Model => {
 
         .get((req, res) => {
 
+            // log.info('get all', Model.apiPath, 'with params', req.query);
+
             Model.find(req.query, (err, result) => {
                 respondeWithResult(err, result, res);
             });
@@ -33,6 +35,8 @@ _.forEach(models, Model => {
         })
 
         .post((req, res) => {
+
+            // log.info('create', Model.apiPath, 'with params', req.body);
 
             const username = req.body.username;
             const password = req.body.password;
@@ -51,6 +55,8 @@ _.forEach(models, Model => {
 
         .get((req, res) => {
 
+            // log.info('get', Model.apiPath, 'with id', req.params.id);
+
             Model.findById(req.params.id, (err, result) => {
                 respondeWithResult(err, result, res);
             });
@@ -59,6 +65,8 @@ _.forEach(models, Model => {
 
         .put((req, res) => {
 
+            // log.info('update', Model.apiPath, 'with id', req.params.id, ', params:', req.body);
+
             Model.findByIdAndUpdate(req.params.id, req.body, {new: true}, (err, result) => {
                 respondeWithResult(err, result, res);
             });
@@ -66,6 +74,8 @@ _.forEach(models, Model => {
         })
 
         .delete((req, res) => {
+
+            // log.info('delete', Model.apiPath, 'with id', req.params.id);
 
             Model.findByIdAndRemove(req.params.id, (err, result) => {
                 respondeWithResult(err, result, res);
