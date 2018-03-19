@@ -2,25 +2,37 @@ const
     oauth2orize         = require('oauth2orize'),
     passport            = require('passport'),
     crypto              = require('crypto'),
-    config              = require('./config'),
-    User                = require('../models/User'),
-    Client              = require('../models/Client'),
-    AccessToken         = require('../models/AccessToken'),
-    RefreshToken        = require('../models/RefreshToken');
+    config              = require(process.cwd() + '/libs/config'),
+    log                 = require(process.cwd() + '/libs/logger')(module),
+    User                = require(process.cwd() + '/models/User'),
+    Client              = require(process.cwd() + '/models/Client'),
+    AccessToken         = require(process.cwd() + '/models/AccessToken'),
+    RefreshToken        = require(process.cwd() + '/models/RefreshToken');
 
 // create OAuth 2.0 server
 
 const server = oauth2orize.createServer();
 
-
 // Exchange username & password for an access token.
 
 server.exchange(oauth2orize.exchange.password((client, username, password, scope, done) => {
 
-    User.findOne({ username: username }, (err, user) => {
+    User.findOne({username}, (err, user) => {
 
         if (err) { return done(err); }
         if (!user) { return done(null, false); }
+
+        user.authenticate(password, (err, model, pwdErr) => {
+
+            if (pwdErr) {
+
+                log.error(pwdErr);
+                return done(null, false);
+
+            }
+
+        });
+
         if (!user.checkPassword(password)) { return done(null, false); }
 
         RefreshToken.remove({ userId: user.userId, clientId: client.clientId }, err => {
@@ -105,3 +117,25 @@ module.exports.token = [
     server.token(),
     server.errorHandler()
 ];
+
+
+// module.exports.token = (req, res, next) => {
+//
+//     log.info(req.body);
+//
+//     const {username, password} = req.body;
+//
+//     User.findOne({username}, (err, user) => {
+//
+//         log.info(user.authenticate(password, (err, model, pwdErr) => {
+//
+//             log.info(err, model, pwdErr);
+//
+//         }));
+//
+//     });
+//
+//     res.send('oauth token');
+//
+//
+// };
