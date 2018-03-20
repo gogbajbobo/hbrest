@@ -3,16 +3,13 @@ const
     router = express.Router(),
     _ = require('lodash'),
     path = require('path'),
-    log = require('../libs/logger')(module);
+    log = require(process.cwd() + '/libs/logger')(module);
 
 const modelNames = [
     'Account',
     'AccountType',
     'Transaction',
-    'User',
-    'Client',
-    'AccessToken',
-    'RefreshToken'
+    'User'
 ];
 
 const models = _.map(modelNames, name => {
