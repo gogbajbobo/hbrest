@@ -30,7 +30,8 @@ const authRoutes = require('./routes/authRoutes');
 app.use(authRoutes);
 
 const dataRoutes = require('./routes/dataRoutes');
-app.use('/api', passport.authenticate('local', { failureRedirect: '/login' }), dataRoutes);
+// app.use('/api', passport.authenticate('local', { failureRedirect: '/login' }), dataRoutes);
+app.use('/api', dataRoutes);
 
 const defaultRoute = require('./routes/defaultRoute');
 app.use(defaultRoute);
