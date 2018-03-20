@@ -65,14 +65,8 @@ router.route('/login')
 router.route('/logout')
     .all((req, res, next) => {
 
-        res.status(404).json({
-            error: true,
-            message: 'logout',
-            data: {
-                API: 'HomeBudget REST API',
-                version: '1.0'
-            }
-        });
+        req.logout();
+        res.redirect('/');
 
     });
 
