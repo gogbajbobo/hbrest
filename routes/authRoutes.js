@@ -1,8 +1,9 @@
 const
     express = require('express'),
-    router  = express.Router(),
-    log     = require(process.cwd() + '/libs/logger')(module),
-    User    = require(process.cwd() + '/models/User');
+    router = express.Router(),
+    log = require(process.cwd() + '/libs/logger')(module),
+    User = require(process.cwd() + '/models/User'),
+    passport = require(process.cwd() + '/libs/auth');
 
 router.route('/register')
     .get((req, res, next) => {
@@ -49,17 +50,20 @@ router.route('/register')
     });
 
 router.route('/login')
-    .all((req, res, next) => {
+    .get((req, res, next) => {
 
         res.status(404).json({
             error: true,
-            message: 'login',
+            message: 'login page is not ready yet',
             data: {
                 API: 'HomeBudget REST API',
                 version: '1.0'
             }
         });
 
+    })
+    .post(passport.authenticate('local'), (req, res, next) => {
+        res.redirect('/');
     });
 
 router.route('/logout')
