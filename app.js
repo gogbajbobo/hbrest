@@ -26,6 +26,9 @@ app.use(bodyParser.json());
 app.use(passport.initialize());
 app.use(passport.session());
 
+const authRoutes = require('./routes/authRoutes');
+app.use(authRoutes);
+
 const dataRoutes = require('./routes/dataRoutes');
 app.use('/api', passport.authenticate('local', { failureRedirect: '/login' }), dataRoutes);
 
