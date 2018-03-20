@@ -10,11 +10,7 @@ router.route('/register')
 
         res.status(404).json({
             error: true,
-            message: 'register page is not ready yet',
-            data: {
-                API: 'HomeBudget REST API',
-                version: '1.0'
-            }
+            message: 'register page is not ready yet'
         });
 
     })
@@ -28,7 +24,7 @@ router.route('/register')
 
             return res.status(400).json({
                 error: true,
-                message: 'both `username` and `password` are required',
+                message: 'both `username` and `password` are required'
             });
 
         }
@@ -54,11 +50,7 @@ router.route('/login')
 
         res.status(404).json({
             error: true,
-            message: 'login page is not ready yet',
-            data: {
-                API: 'HomeBudget REST API',
-                version: '1.0'
-            }
+            message: 'login page is not ready yet'
         });
 
     })
@@ -71,6 +63,19 @@ router.route('/logout')
 
         req.logout();
         res.redirect('/');
+
+    });
+
+router.route('/userinfo')
+    .all(passport.authenticate('local'), (req, res, next) => {
+
+        res.status(200).json({
+            error: false,
+            message: 'user info',
+            data: {
+                user: req.user
+            }
+        });
 
     });
 
