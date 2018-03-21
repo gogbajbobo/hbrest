@@ -3,7 +3,8 @@ const
     router = express.Router(),
     log = require(process.cwd() + '/libs/logger')(module),
     User = require(process.cwd() + '/models/User'),
-    passport = require(process.cwd() + '/libs/auth');
+    passport = require(process.cwd() + '/libs/auth'),
+    login = require('connect-ensure-login');
 
 router.route('/register')
     .get((req, res, next) => {
@@ -47,15 +48,10 @@ router.route('/register')
 
 router.route('/login')
     .get((req, res, next) => {
-
-        res.status(404).json({
-            error: true,
-            message: 'login page is not ready yet'
-        });
-
+        res.render('login');
     })
-    .post(passport.authenticate('local'), (req, res, next) => {
-        res.redirect('/');
+    .post(passport.authenticate('local', {failureRedirect: '/login'}), (req, res, next) => {
+        res.redirect('/userinfo');
     });
 
 router.route('/logout')
@@ -67,7 +63,9 @@ router.route('/logout')
     });
 
 router.route('/userinfo')
-    .all(passport.authenticate('local'), (req, res, next) => {
+    .all(login.ensureLoggedIn(), (req, res, next) => {
+
+        log.info(req.user);
 
         res.status(200).json({
             error: false,

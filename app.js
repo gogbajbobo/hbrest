@@ -6,7 +6,8 @@ const
     requestLogger   = require('morgan'),
     log             = require(process.cwd() + '/libs/logger')(module),
     config          = require(process.cwd() + '/libs/config'),
-    passport        = require(process.cwd() + '/libs/auth');
+    passport        = require(process.cwd() + '/libs/auth'),
+    path            = require('path');
 
 mongoose.connect(config.get('mongoose:uri'));
 const db = mongoose.connection;
@@ -20,8 +21,17 @@ db.once('open', () => {
 
 app.use(requestLogger('dev'));
 
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'pug');
+
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
+
+app.use(require('express-session')({
+    secret: 'mouse dog',
+    resave: false,
+    saveUninitialized: false
+}));
 
 app.use(passport.initialize());
 app.use(passport.session());
